@@ -2,8 +2,8 @@ name: Docker Image CI
 
 on:
   push:
-    branches:
-      - "!*"
+    #branches:
+    #  - "!*"
     tags: 
       - '*'
   #  branches: [ master ]
@@ -13,6 +13,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    if: ${{ github.ref == 'refs/heads/master' }}
     steps:
     - uses: actions/checkout@v2
     - name: Log in to Docker Hub
@@ -30,6 +31,6 @@ jobs:
       with:
         context: .
         push: true
-        tags: "latest,${{ steps.meta.outputs.tags }}"
+        tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
 
